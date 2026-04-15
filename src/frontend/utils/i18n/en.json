@@ -1,0 +1,9 @@
+{
+  "app": { "name": "Government Document System", "tagline": "Automated official document generation" },
+  "nav": { "dashboard": "Dashboard", "newDocument": "New Document", "templates": "Templates", "knowledge": "Knowledge Base", "settings": "Settings", "logout": "Logout" },
+  "document": { "selectTemplate": "Select Document Template", "fillDetails": "Fill in Details", "preview": "Preview", "generate": "Generate Document", "download": "Download", "print": "Print" },
+  "fields": { "refNumber": "Reference Number", "date": "Date", "from": "From", "to": "To", "subject": "Subject", "body": "Body", "signature": "Signature", "cc": "CC" },
+  "templates": { "official-letter": "Official Letter", "internal-memo": "Internal Memo", "meeting-minutes": "Meeting Minutes", "policy-report": "Policy Report", "notification": "Notification", "request-letter": "Request Letter", "decision-decree": "Decision/Decree", "certificate": "Certificate", "contract": "Contract", "audit-report": "Audit Report" },
+  "actions": { "save": "Save", "cancel": "Cancel", "submit": "Submit", "approve": "Approve", "reject": "Reject", "edit": "Edit", "delete": "Delete" },
+  "status": { "draft": "Draft", "pending": "Pending", "approved": "Approved", "rejected": "Rejected", "signed": "Signed", "archived": "Archived" }
+}

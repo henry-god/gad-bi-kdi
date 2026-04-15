@@ -1,0 +1,28 @@
+{
+  "templateId": "fsa-prakas",
+  "documentType": "FSA Prakas (Proclamation)",
+  "documentTypeKm": "ប្រកាស",
+  "mustWrite": [
+    "Kingdom of Cambodia header",
+    "NBFSA letterhead",
+    "Legal references (យោង) block",
+    "Numbered articles",
+    "Formal tone throughout"
+  ],
+  "mustNotWrite": [
+    "Informal language or slang",
+    "Content beyond signer authorization level"
+  ],
+  "toneGuidelines": {
+    "register": "formal",
+    "honorifics": "Use proper titles: ឯកឧត្តម, លោក, លោកស្រី",
+    "voice": "Institutional third person",
+    "politeness": "High formal"
+  },
+  "structureRules": {},
+  "complianceChecks": [
+    "Reference number format valid",
+    "Date format matches standard",
+    "Language register consistent"
+  ]
+}

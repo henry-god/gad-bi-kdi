@@ -1,0 +1,13 @@
+{
+  "firebaseEnabled": true,
+  "anonymousAuth": true,
+  "webConfig": {
+    "apiKey": "AIzaSyCOMthpaddoUQHz8LHesaotGcxtROExOcE",
+    "authDomain": "gad-bi-kdi.firebaseapp.com",
+    "projectId": "gad-bi-kdi",
+    "storageBucket": "gad-bi-kdi.firebasestorage.app",
+    "messagingSenderId": "9320921033",
+    "appId": "1:9320921033:web:790b77c8701b96fc689a18",
+    "measurementId": "G-605P0JRM9L"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "id": "fsa-report",
+  "name": "FSA Report",
+  "nameKm": "របាយការណ៍",
+  "category": "report",
+  "page": {
+    "size": "A4",
+    "orientation": "portrait",
+    "margins": {
+      "top": 2.54,
+      "bottom": 2.54,
+      "left": 3.17,
+      "right": 2.54
+    }
+  },
+  "fonts": {
+    "title": { "family": "Khmer OS Siemreap", "size": 14, "bold": true },
+    "body": { "family": "Khmer OS Siemreap", "size": 11, "lineSpacing": 1.5 },
+    "header": { "family": "Khmer OS Muollight", "size": 11 },
+    "footer": { "family": "Khmer OS Siemreap", "size": 9 }
+  },
+  "letterhead": {
+    "enabled": true,
+    "logoPosition": "center",
+    "ministryName": true,
+    "departmentName": true,
+    "emblem": true
+  },
+  "footer": {
+    "enabled": true,
+    "pageNumber": true,
+    "address": false
+  },
+  "sections": [
+    { "id": "header_kingdom", "label": "Kingdom Header", "labelKm": "ក្បាលរាជាណាចក្រ", "type": "text", "required": true, "order": 1 },
+    { "id": "title", "label": "Title", "labelKm": "ចំណងជើង", "type": "text", "required": true, "order": 2 },
+    { "id": "period", "label": "Reporting Period", "labelKm": "រយៈពេលរាយការណ៍", "type": "text", "required": true, "order": 3 },
+    { "id": "authors", "label": "Authors", "labelKm": "អ្នករៀបចំ", "type": "text", "required": true, "order": 4 },
+    { "id": "summary", "label": "Executive Summary", "labelKm": "សេចក្តីសង្ខេប", "type": "richtext", "required": true, "order": 5 },
+    { "id": "body", "label": "Main Sections", "labelKm": "មាតិកាសំខាន់", "type": "richtext", "required": true, "order": 6 },
+    { "id": "conclusion", "label": "Conclusion", "labelKm": "សេចក្តីសន្និដ្ឋាន", "type": "richtext", "required": true, "order": 7 },
+    { "id": "signature", "label": "Signature", "labelKm": "ហត្ថលេខា", "type": "signature", "required": true, "order": 8 }
+  ],
+  "placeholders": {
+    "{{TITLE}}": "Report title",
+    "{{PERIOD}}": "Reporting period",
+    "{{AUTHORS}}": "Report authors",
+    "{{SUMMARY}}": "Executive summary",
+    "{{BODY}}": "Main report content",
+    "{{CONCLUSION}}": "Conclusion",
+    "{{SIGNER_NAME}}": "Signer name",
+    "{{SIGNER_TITLE}}": "Signer title"
+  }
+}

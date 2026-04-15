@@ -1,0 +1,33 @@
+{
+  "category": "hr-policies",
+  "name": "Human Resource Policies",
+  "nameKm": "គោលនយោបាយធនធានមនុស្ស",
+  "description": "HR procedures, org structure, leave policies, hiring, promotions",
+  "relatedTemplates": ["official-letter", "internal-memo", "notification", "decision-decree"],
+  "entries": [
+    {
+      "title": "Annual leave entitlement",
+      "titleKm": "សិទ្ធិឈប់សម្រាកប្រចាំឆ្នាំ",
+      "content": "Civil servants are entitled to 18 working days of paid annual leave per year, accrued monthly and requested in writing at least 7 days in advance.",
+      "keywords": ["leave", "annual", "ច្បាប់ឈប់សម្រាក", "leave-entitlement", "vacation", "ឈប់សម្រាក"]
+    },
+    {
+      "title": "Sick leave policy",
+      "titleKm": "គោលការណ៍ច្បាប់ឈឺ",
+      "content": "Up to 30 days paid sick leave per year with medical certificate. Beyond 30 days requires Medical Board review.",
+      "keywords": ["sick", "medical", "ឈឺ", "health", "ច្បាប់ឈឺ"]
+    },
+    {
+      "title": "Promotion procedure",
+      "titleKm": "នីតិវិធីតម្លើងឋានៈ",
+      "content": "Promotions follow annual performance review, require recommendation from direct supervisor and approval from department director.",
+      "keywords": ["promotion", "តម្លើងឋានៈ", "performance", "review", "career"]
+    },
+    {
+      "title": "Budget approval threshold",
+      "titleKm": "កម្រិតអនុម័តថវិកា",
+      "content": "Department directors may approve expenditures up to 50 million riel. Amounts above require ministry-level approval.",
+      "keywords": ["budget", "ថវិកា", "approval", "អនុម័ត", "expenditure", "riel"]
+    }
+  ]
+}

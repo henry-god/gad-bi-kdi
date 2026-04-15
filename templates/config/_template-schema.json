@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "KGD Template Configuration",
+  "description": "Schema for Khmer government document template specifications",
+  "type": "object",
+  "required": ["id", "name", "nameKm", "category", "page", "fonts", "sections", "placeholders"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z-]+$" },
+    "name": { "type": "string", "description": "English template name" },
+    "nameKm": { "type": "string", "description": "Khmer template name" },
+    "category": { "type": "string", "enum": ["letter", "memo", "minutes", "report", "decree", "notification", "request", "certificate", "contract", "other"] },
+    "page": {
+      "type": "object",
+      "properties": {
+        "size": { "type": "string", "enum": ["A4", "Letter"], "default": "A4" },
+        "orientation": { "type": "string", "enum": ["portrait", "landscape"], "default": "portrait" },
+        "margins": {
+          "type": "object",
+          "properties": {
+            "top": { "type": "number", "description": "Margin in cm" },
+            "bottom": { "type": "number" },
+            "left": { "type": "number" },
+            "right": { "type": "number" }
+          }
+        }
+      }
+    },
+    "fonts": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "object", "properties": { "family": { "type": "string" }, "size": { "type": "number" }, "bold": { "type": "boolean" } } },
+        "body": { "type": "object", "properties": { "family": { "type": "string" }, "size": { "type": "number" }, "lineSpacing": { "type": "number" } } },
+        "header": { "type": "object", "properties": { "family": { "type": "string" }, "size": { "type": "number" } } },
+        "footer": { "type": "object", "properties": { "family": { "type": "string" }, "size": { "type": "number" } } }
+      }
+    },
+    "letterhead": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "logoPosition": { "type": "string", "enum": ["left", "center", "right"] },
+        "ministryName": { "type": "boolean" },
+        "departmentName": { "type": "boolean" },
+        "emblem": { "type": "boolean" }
+      }
+    },
+    "footer": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "pageNumber": { "type": "boolean" },
+        "address": { "type": "boolean" }
+      }
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "labelKm": { "type": "string" },
+          "type": { "type": "string", "enum": ["text", "richtext", "date", "select", "table", "signature"] },
+          "required": { "type": "boolean" },
+          "order": { "type": "integer" }
+        }
+      }
+    },
+    "placeholders": {
+      "type": "object",
+      "description": "Map of placeholder keys to their labels",
+      "additionalProperties": { "type": "string" }
+    }
+  }
+}

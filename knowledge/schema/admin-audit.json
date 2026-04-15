@@ -1,0 +1,1 @@
+{"category":"admin-audit","name":"Administrative & Internal Audit","nameKm":"រដ្ឋបាល និងសវនកម្មផ្ទៃក្នុង","description":"Internal controls, audit procedures, procurement, compliance","fields":["audit_area","findings","recommendations","risk_level","follow_up_date"],"relatedTemplates":["audit-report","internal-memo","official-letter"]}

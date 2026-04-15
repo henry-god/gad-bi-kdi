@@ -1,0 +1,28 @@
+{
+  "templateId": "fsa-decree",
+  "documentType": "FSA Transmittal Order (Deka Om)",
+  "documentTypeKm": "ដីកាអម",
+  "mustWrite": [
+    "Kingdom of Cambodia header",
+    "NBFSA letterhead",
+    "Recital (សេចក្តីយោង) with legal basis",
+    "Numbered articles",
+    "Formal tone throughout"
+  ],
+  "mustNotWrite": [
+    "Informal language or slang",
+    "Content beyond signer authorization level"
+  ],
+  "toneGuidelines": {
+    "register": "formal",
+    "honorifics": "Use proper titles: ឯកឧត្តម, លោក, លោកស្រី",
+    "voice": "Institutional third person",
+    "politeness": "High formal"
+  },
+  "structureRules": {},
+  "complianceChecks": [
+    "Reference number format valid",
+    "Date format matches standard",
+    "Language register consistent"
+  ]
+}

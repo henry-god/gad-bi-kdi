@@ -1,0 +1,61 @@
+{
+  "app": {
+    "name": "ប្រព័ន្ធឯកសាររាជរដ្ឋាភិបាល",
+    "tagline": "បង្កើតឯកសារផ្លូវការដោយស្វ័យប្រវត្តិ"
+  },
+  "nav": {
+    "dashboard": "ផ្ទាំងគ្រប់គ្រង",
+    "newDocument": "បង្កើតឯកសារថ្មី",
+    "templates": "គំរូឯកសារ",
+    "knowledge": "មូលដ្ឋានចំណេះដឹង",
+    "settings": "ការកំណត់",
+    "logout": "ចាកចេញ"
+  },
+  "document": {
+    "selectTemplate": "ជ្រើសរើសគំរូឯកសារ",
+    "fillDetails": "បំពេញព័ត៌មានលម្អិត",
+    "preview": "មើលមុន",
+    "generate": "បង្កើតឯកសារ",
+    "download": "ទាញយក",
+    "print": "បោះពុម្ព"
+  },
+  "fields": {
+    "refNumber": "លេខយោង",
+    "date": "កាលបរិច្ឆេទ",
+    "from": "ពី",
+    "to": "ជូនចំពោះ",
+    "subject": "កម្មវត្ថុ",
+    "body": "ខ្លឹមសារ",
+    "signature": "ហត្ថលេខា",
+    "cc": "ចម្លង"
+  },
+  "templates": {
+    "official-letter": "លិខិតផ្លូវការ",
+    "internal-memo": "អនុស្សរណៈផ្ទៃក្នុង",
+    "meeting-minutes": "កំណត់ហេតុប្រជុំ",
+    "policy-report": "របាយការណ៍គោលនយោបាយ",
+    "notification": "សេចក្តីជូនដំណឹង",
+    "request-letter": "លិខិតស្នើសុំ",
+    "decision-decree": "សេចក្តីសម្រេច",
+    "certificate": "វិញ្ញាបនបត្រ",
+    "contract": "កិច្ចសន្យា",
+    "audit-report": "របាយការណ៍សវនកម្ម"
+  },
+  "actions": {
+    "save": "រក្សាទុក",
+    "cancel": "បោះបង់",
+    "submit": "ដាក់ស្នើ",
+    "approve": "អនុម័ត",
+    "reject": "បដិសេធ",
+    "edit": "កែសម្រួល",
+    "delete": "លុប"
+  },
+  "status": {
+    "draft": "សេចក្តីព្រាង",
+    "pending": "កំពុងរង់ចាំ",
+    "approved": "បានអនុម័ត",
+    "rejected": "បានបដិសេធ",
+    "signed": "បានចុះហត្ថលេខា",
+    "archived": "បានរក្សាទុក"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "templateId": "official-letter",
+  "documentType": "Official Government Letter",
+  "documentTypeKm": "លិខិតផ្លូវការរបស់រាជរដ្ឋាភិបាល",
+
+  "mustWrite": [
+    "Kingdom of Cambodia header: ព្រះរាជាណាចក្រកម្ពុជា / ជាតិ សាសនា ព្រះមហាក្សត្រ",
+    "Ministry/department name in Khmer OS Muol Light font",
+    "Reference number in format: លេខ ១២៣ ស.ហ.វ",
+    "Date in Khmer format: រាជធានីភ្នំពេញ ថ្ងៃទី... ខែ... ឆ្នាំ...",
+    "Formal salutation appropriate to recipient rank",
+    "Clear subject line prefixed with កម្មវត្ថុ:",
+    "Respectful closing with សូមទទួលនូវការគោរពដ៏ខ្ពង់ខ្ពស់ or equivalent",
+    "Signer name, title, and position",
+    "CC list if applicable, with proper titles"
+  ],
+
+  "mustNotWrite": [
+    "Informal language, slang, or colloquial Khmer",
+    "Personal opinions not backed by policy/regulation",
+    "Abbreviations not officially recognized",
+    "Foreign language terms when Khmer equivalent exists",
+    "Content contradicting existing ministry directives",
+    "Promises or commitments without proper authorization level",
+    "Sensitive information not classified for the recipient level",
+    "Incorrect honorific titles for officials"
+  ],
+
+  "toneGuidelines": {
+    "register": "formal",
+    "honorifics": "Always use proper titles: ឯកឧត្តម, លោក, លោកស្រី, etc.",
+    "voice": "Third person institutional (the Ministry, the Department)",
+    "politeness": "High formal — use សូម, មេត្តា, ការគោរព patterns"
+  },
+
+  "structureRules": {
+    "maxBodyParagraphs": 5,
+    "requireSubject": true,
+    "requireReference": true,
+    "signaturePosition": "right-aligned, below closing",
+    "ccPosition": "bottom-left, after signature block"
+  },
+
+  "complianceChecks": [
+    "Reference number follows ministry numbering scheme",
+    "Date format matches Khmer government standard",
+    "Recipient title matches official directory",
+    "Content does not exceed authorization level of signer",
+    "Language register is consistently formal throughout"
+  ]
+}

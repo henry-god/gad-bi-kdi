@@ -1,0 +1,53 @@
+{
+  "id": "fsa-guideline",
+  "name": "FSA Guidelines / Instruction",
+  "nameKm": "សេចក្តីណែនាំ",
+  "category": "report",
+  "page": {
+    "size": "A4",
+    "orientation": "portrait",
+    "margins": {
+      "top": 2.54,
+      "bottom": 2.54,
+      "left": 3.17,
+      "right": 2.54
+    }
+  },
+  "fonts": {
+    "title": { "family": "Khmer OS Siemreap", "size": 14, "bold": true },
+    "body": { "family": "Khmer OS Siemreap", "size": 11, "lineSpacing": 1.5 },
+    "header": { "family": "Khmer OS Muollight", "size": 11 },
+    "footer": { "family": "Khmer OS Siemreap", "size": 9 }
+  },
+  "letterhead": {
+    "enabled": true,
+    "logoPosition": "center",
+    "ministryName": true,
+    "departmentName": true,
+    "emblem": true
+  },
+  "footer": {
+    "enabled": true,
+    "pageNumber": true,
+    "address": false
+  },
+  "sections": [
+    { "id": "header_kingdom", "label": "Kingdom Header", "labelKm": "ក្បាលរាជាណាចក្រ", "type": "text", "required": true, "order": 1 },
+    { "id": "guideline_number", "label": "Guideline Number", "labelKm": "លេខសេចក្តីណែនាំ", "type": "text", "required": true, "order": 2 },
+    { "id": "date", "label": "Date", "labelKm": "កាលបរិច្ឆេទ", "type": "date", "required": true, "order": 3 },
+    { "id": "title", "label": "Title", "labelKm": "ចំណងជើង", "type": "text", "required": true, "order": 4 },
+    { "id": "purpose", "label": "Purpose", "labelKm": "គោលបំណង", "type": "richtext", "required": true, "order": 5 },
+    { "id": "scope", "label": "Scope", "labelKm": "វិសាលភាព", "type": "richtext", "required": true, "order": 6 },
+    { "id": "body", "label": "Body", "labelKm": "ខ្លឹមសារ", "type": "richtext", "required": true, "order": 7 },
+    { "id": "signature", "label": "Signature", "labelKm": "ហត្ថលេខា", "type": "signature", "required": true, "order": 8 }
+  ],
+  "placeholders": {
+    "{{GUIDELINE_NUMBER}}": "Guideline reference number",
+    "{{TITLE}}": "Guideline title",
+    "{{PURPOSE}}": "Purpose / objective",
+    "{{SCOPE}}": "Scope of application",
+    "{{BODY}}": "Main body",
+    "{{SIGNER_NAME}}": "Signer name",
+    "{{SIGNER_TITLE}}": "Signer title"
+  }
+}

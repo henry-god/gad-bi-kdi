@@ -1,0 +1,52 @@
+[
+  {
+    "category": "hr-policies",
+    "subcategory": "leave",
+    "title": "Annual Leave Policy",
+    "titleKm": "គោលនយោបាយឈប់សម្រាកប្រចាំឆ្នាំ",
+    "content": "Civil servants are entitled to 18 working days of annual leave per year. Leave must be approved by immediate supervisor and department head. Unused leave may carry over up to 5 days to the following year.",
+    "contentKm": "មន្ត្រីរាជការមានសិទ្ធិឈប់សម្រាកប្រចាំឆ្នាំចំនួន ១៨ ថ្ងៃធ្វើការក្នុងមួយឆ្នាំ។ ការឈប់សម្រាកត្រូវទទួលការអនុម័តពីប្រធានផ្ទាល់ និងប្រធាននាយកដ្ឋាន។",
+    "legalBasis": "Sub-Decree No. 29 on Civil Servant Leave",
+    "tags": ["leave", "annual", "entitlement"]
+  },
+  {
+    "category": "hr-policies",
+    "subcategory": "promotion",
+    "title": "Promotion Criteria",
+    "titleKm": "លក្ខណៈវិនិច្ឆ័យដំឡើងតំណែង",
+    "content": "Promotion eligibility requires: minimum 3 years in current grade, satisfactory performance evaluations, completion of required training, and recommendation from department head.",
+    "contentKm": "ការដំឡើងតំណែងតម្រូវឱ្យមាន៖ បទពិសោធន៍យ៉ាងតិច ៣ ឆ្នាំក្នុងថ្នាក់បច្ចុប្បន្ន ការវាយតម្លៃការងារល្អ ការបញ្ចប់វគ្គបណ្ដុះបណ្ដាលតម្រូវ និងការណែនាំពីប្រធាននាយកដ្ឋាន។",
+    "legalBasis": "Law on Common Statute of Civil Servants, Article 32",
+    "tags": ["promotion", "grade", "evaluation"]
+  },
+  {
+    "category": "law-regulation",
+    "subcategory": "constitution",
+    "title": "Public Finance Management Law",
+    "titleKm": "ច្បាប់ស្តីពីការគ្រប់គ្រងហិរញ្ញវត្ថុសាធារណៈ",
+    "content": "The Public Finance Management Law governs all government budget execution, procurement, and financial reporting. All ministries must comply with annual budget preparation timelines and reporting standards.",
+    "contentKm": "ច្បាប់ស្តីពីការគ្រប់គ្រងហិរញ្ញវត្ថុសាធារណៈ គ្រប់គ្រងការប្រតិបត្តិថវិកា ការលទ្ធកម្ម និងរបាយការណ៍ហិរញ្ញវត្ថុរបស់រាជរដ្ឋាភិបាលទាំងអស់។",
+    "legalBasis": "Public Finance Management Law 2009, amended 2016",
+    "tags": ["budget", "finance", "procurement", "reporting"]
+  },
+  {
+    "category": "admin-audit",
+    "subcategory": "procedures",
+    "title": "Internal Audit Reporting Standard",
+    "titleKm": "ស្តង់ដាររបាយការណ៍សវនកម្មផ្ទៃក្នុង",
+    "content": "Internal audit reports must include: executive summary, scope and methodology, findings with evidence, risk assessment, recommendations, and management response. Reports must be submitted within 30 days of audit completion.",
+    "contentKm": "របាយការណ៍សវនកម្មផ្ទៃក្នុងត្រូវតែមាន៖ សង្ខេបប្រតិបត្តិ វិសាលភាព និងវិធីសាស្ត្រ ការរកឃើញជាមួយភស្តុតាង ការវាយតម្លៃហានិភ័យ អនុសាសន៍ និងការឆ្លើយតបរបស់ថ្នាក់ដឹកនាំ។",
+    "legalBasis": "MEF Internal Audit Manual 2020",
+    "tags": ["audit", "reporting", "compliance"]
+  },
+  {
+    "category": "public-policy",
+    "subcategory": "digital",
+    "title": "Cambodia Digital Economy Framework",
+    "titleKm": "ក្របខ័ណ្ឌសេដ្ឋកិច្ចឌីជីថលកម្ពុជា",
+    "content": "The Digital Economy Framework 2021-2035 prioritizes: digital government services, digital financial services, digital commerce, and digital literacy. All ministries must develop digital transformation roadmaps.",
+    "contentKm": "ក្របខ័ណ្ឌសេដ្ឋកិច្ចឌីជីថល ២០២១-២០៣៥ ផ្តោតលើ៖ សេវាកម្មរដ្ឋាភិបាលឌីជីថល សេវាកម្មហិរញ្ញវត្ថុឌីជីថល ពាណិជ្ជកម្មឌីជីថល និងចំណេះដឹងឌីជីថល។",
+    "legalBasis": "Cambodia Digital Economy and Society Policy Framework 2021-2035",
+    "tags": ["digital", "transformation", "e-government"]
+  }
+]

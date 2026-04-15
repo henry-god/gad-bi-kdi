@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === UI font: Kantumruy Pro (self-hosted, variable) === */
+@font-face {
+  font-family: 'Kantumruy Pro';
+  src: url('/fonts/KantumruyPro-Variable.ttf') format('truetype-variations'),
+       url('/fonts/KantumruyPro-Variable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Kantumruy Pro';
+  src: url('/fonts/KantumruyPro-Italic-Variable.ttf') format('truetype-variations'),
+       url('/fonts/KantumruyPro-Italic-Variable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* === Document output fonts (DOCX + preview only) === */
+@font-face {
+  font-family: 'Khmer OS Siemreap';
+  src: url('/fonts/KhmerOSSiemreap.ttf') format('truetype');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Khmer OS Muollight';
+  src: url('/fonts/KhmerOSMuollight.ttf') format('truetype');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-ui: 'Kantumruy Pro', system-ui, sans-serif;
+  --font-doc-body: 'Khmer OS Siemreap', 'Noto Sans Khmer', sans-serif;
+  --font-doc-header: 'Khmer OS Muollight', 'Khmer OS Siemreap', serif;
+  color-scheme: dark;
+}
+
+html, body {
+  background: #0b1220;
+  color: #e2e8f0;
+}
+body {
+  font-family: var(--font-ui);
+  font-feature-settings: 'liga', 'kern';
+}
+
+/* System UI helpers (dark) */
+.font-khmer        { font-family: var(--font-ui); }
+.font-khmer-header { font-family: var(--font-ui); font-weight: 600; letter-spacing: 0.01em; }
+.font-doc-body     { font-family: var(--font-doc-body); }
+.font-doc-header   { font-family: var(--font-doc-header); }
+
+/* ===== Document surfaces stay LIGHT + use document fonts =====
+   Any iframe/preview rendered from html-renderer supplies its own CSS, so
+   we only scope these rules to the wrapper that carries .doc-surface. */
+.doc-surface {
+  background: #fff;
+  color: #000;
+  font-family: var(--font-doc-body);
+}
+.doc-surface .khmer-header,
+.doc-surface .kingdom-header {
+  font-family: var(--font-doc-header);
+}
+
+.doc-preview {
+  background: white;
+  color: #000;
+  font-family: var(--font-doc-body);
+  font-size: 12pt;
+  line-height: 1.5;
+  max-width: 210mm;
+  margin: 0 auto;
+  padding: 2.54cm 2.54cm 2.54cm 3.17cm;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  min-height: 297mm;
+}
+.doc-preview .kingdom-header {
+  text-align: center;
+  font-family: var(--font-doc-header);
+  font-size: 14pt;
+  margin-bottom: 1rem;
+}
+
+/* Form control baseline (dark) */
+input, select, textarea {
+  color-scheme: dark;
+}

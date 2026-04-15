@@ -1,0 +1,29 @@
+rules_version = '2';
+
+// Firebase Storage security — every read/write must carry a verified ID
+// token (Firebase Auth). The backend uses the Admin SDK so bypasses these
+// rules. Clients never touch Storage directly.
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /documents/{documentId}/{allPaths=**} {
+      // Signed-in users read their own docs; fine-grained owner check
+      // is handled by the API (which proxies the bytes).
+      allow read: if request.auth != null;
+      allow write: if false; // server-only
+    }
+
+    match /vault/{workspaceSlug}/{allPaths=**} {
+      allow read: if request.auth != null;
+      allow write: if false; // server-only
+    }
+
+    match /thumbnails/{allPaths=**} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

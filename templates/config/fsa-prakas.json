@@ -1,0 +1,51 @@
+{
+  "id": "fsa-prakas",
+  "name": "FSA Prakas (Proclamation)",
+  "nameKm": "ប្រកាស",
+  "category": "other",
+  "page": {
+    "size": "A4",
+    "orientation": "portrait",
+    "margins": {
+      "top": 2.54,
+      "bottom": 2.54,
+      "left": 3.17,
+      "right": 2.54
+    }
+  },
+  "fonts": {
+    "title": { "family": "Khmer OS Siemreap", "size": 14, "bold": true },
+    "body": { "family": "Khmer OS Siemreap", "size": 11, "lineSpacing": 1.5 },
+    "header": { "family": "Khmer OS Muollight", "size": 11 },
+    "footer": { "family": "Khmer OS Siemreap", "size": 9 }
+  },
+  "letterhead": {
+    "enabled": true,
+    "logoPosition": "center",
+    "ministryName": true,
+    "departmentName": true,
+    "emblem": true
+  },
+  "footer": {
+    "enabled": true,
+    "pageNumber": true,
+    "address": false
+  },
+  "sections": [
+    { "id": "header_kingdom", "label": "Kingdom Header", "labelKm": "ក្បាលរាជាណាចក្រ", "type": "text", "required": true, "order": 1 },
+    { "id": "prakas_number", "label": "Prakas Number", "labelKm": "លេខប្រកាស", "type": "text", "required": true, "order": 2 },
+    { "id": "date", "label": "Date", "labelKm": "កាលបរិច្ឆេទ", "type": "date", "required": true, "order": 3 },
+    { "id": "title", "label": "Title", "labelKm": "ស្តីពី", "type": "text", "required": true, "order": 4 },
+    { "id": "references", "label": "Legal References", "labelKm": "យោង", "type": "richtext", "required": true, "order": 5 },
+    { "id": "articles", "label": "Articles", "labelKm": "មាត្រា", "type": "richtext", "required": true, "order": 6 },
+    { "id": "signature", "label": "Signature", "labelKm": "ហត្ថលេខា", "type": "signature", "required": true, "order": 7 }
+  ],
+  "placeholders": {
+    "{{PRAKAS_NUMBER}}": "Prakas reference number",
+    "{{TITLE}}": "Prakas subject line",
+    "{{REFERENCES}}": "Legal references / citations",
+    "{{ARTICLES}}": "Articles",
+    "{{SIGNER_NAME}}": "Signer name",
+    "{{SIGNER_TITLE}}": "Signer title"
+  }
+}

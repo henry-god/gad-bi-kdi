@@ -1,0 +1,57 @@
+{
+  "id": "fsa-notify",
+  "name": "FSA Notification Letter",
+  "nameKm": "លិខិតជម្រាបជូន",
+  "category": "letter",
+  "page": {
+    "size": "A4",
+    "orientation": "portrait",
+    "margins": {
+      "top": 2.54,
+      "bottom": 2.54,
+      "left": 3.17,
+      "right": 2.54
+    }
+  },
+  "fonts": {
+    "title": { "family": "Khmer OS Siemreap", "size": 14, "bold": true },
+    "body": { "family": "Khmer OS Siemreap", "size": 11, "lineSpacing": 1.5 },
+    "header": { "family": "Khmer OS Muollight", "size": 11 },
+    "footer": { "family": "Khmer OS Siemreap", "size": 9 }
+  },
+  "letterhead": {
+    "enabled": true,
+    "logoPosition": "center",
+    "ministryName": true,
+    "departmentName": true,
+    "emblem": true
+  },
+  "footer": {
+    "enabled": true,
+    "pageNumber": true,
+    "address": false
+  },
+  "sections": [
+    { "id": "header_kingdom", "label": "Kingdom Header", "labelKm": "ក្បាលរាជាណាចក្រ", "type": "text", "required": true, "order": 1 },
+    { "id": "letter_number", "label": "Letter Number", "labelKm": "លេខលិខិត", "type": "text", "required": true, "order": 2 },
+    { "id": "date", "label": "Date", "labelKm": "កាលបរិច្ឆេទ", "type": "date", "required": true, "order": 3 },
+    { "id": "recipient", "label": "Recipient", "labelKm": "គោរពជូន", "type": "text", "required": true, "order": 4 },
+    { "id": "subject", "label": "Subject", "labelKm": "កម្មវត្ថុ", "type": "text", "required": true, "order": 5 },
+    { "id": "salutation", "label": "Salutation", "labelKm": "អារម្ភកថា", "type": "text", "required": false, "order": 6 },
+    { "id": "body", "label": "Body", "labelKm": "ខ្លឹមសារ", "type": "richtext", "required": true, "order": 7 },
+    { "id": "closing", "label": "Closing", "labelKm": "បិទសេចក្តី", "type": "text", "required": false, "order": 8 },
+    { "id": "signature", "label": "Signature", "labelKm": "ហត្ថលេខា", "type": "signature", "required": true, "order": 9 },
+    { "id": "cc", "label": "CC", "labelKm": "ចម្លងជូន", "type": "text", "required": false, "order": 10 }
+  ],
+  "placeholders": {
+    "{{LETTER_NUMBER}}": "Letter reference number",
+    "{{RECIPIENT}}": "Recipient name and title",
+    "{{SUBJECT}}": "Letter subject",
+    "{{SALUTATION}}": "Opening salutation",
+    "{{BODY}}": "Letter body",
+    "{{CLOSING}}": "Closing line",
+    "{{CC}}": "Copy recipients",
+    "{{SIGNER_NAME}}": "Signer name",
+    "{{SIGNER_TITLE}}": "Signer title"
+  }
+}

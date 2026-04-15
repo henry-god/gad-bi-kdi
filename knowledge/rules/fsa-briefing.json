@@ -1,0 +1,29 @@
+{
+  "templateId": "fsa-briefing",
+  "documentType": "FSA Case Briefing Memo",
+  "documentTypeKm": "កំណត់បង្ហាញរឿង",
+  "mustWrite": [
+    "Kingdom of Cambodia header",
+    "NBFSA letterhead (អគ្គលេខាធិការដ្ឋានអាជ្ញាធរសេវាហិរញ្ញវត្ថុមិនមែនធនាគារ)",
+    "Clear background / findings / recommendation sections",
+    "Proper date format in Khmer",
+    "Formal tone throughout"
+  ],
+  "mustNotWrite": [
+    "Informal language or slang",
+    "Unauthorized commitments",
+    "Content beyond signer authorization level"
+  ],
+  "toneGuidelines": {
+    "register": "formal",
+    "honorifics": "Use proper titles: ឯកឧត្តម, លោក, លោកស្រី",
+    "voice": "Institutional third person",
+    "politeness": "High formal"
+  },
+  "structureRules": {},
+  "complianceChecks": [
+    "Reference number format valid",
+    "Date format matches standard",
+    "Language register consistent"
+  ]
+}

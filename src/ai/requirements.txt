@@ -1,0 +1,21 @@
+# KGD AI Services - Python Dependencies
+# Install: pip install -r requirements.txt
+
+# API Framework
+fastapi==0.111.0
+uvicorn==0.30.1
+
+# AI/ML - Phase 2+
+# google-cloud-documentai==2.29.0   # OCR (Phase 2)
+# openai==1.35.0                     # Whisper STT (Phase 4)
+# paddleocr==2.7.3                   # Khmer OCR fine-tune (Phase 6)
+# paddlepaddle==2.6.1
+
+# NLP
+# pythainlp==5.0.4                   # For Khmer text processing utils
+# chromadb==0.5.3                    # Vector store (Phase 3)
+
+# Utils
+python-multipart==0.0.9
+pydantic==2.7.4
+python-dotenv==1.0.1

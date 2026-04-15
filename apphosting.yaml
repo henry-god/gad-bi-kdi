@@ -1,0 +1,45 @@
+# Firebase App Hosting configuration for the Next.js frontend + Express API.
+# Docs: https://firebase.google.com/docs/app-hosting/configure
+
+runConfig:
+  minInstances: 0          # scale to zero at idle to control cost
+  maxInstances: 2          # cap on traffic burst (~$0.03/hour per instance)
+  concurrency: 80
+  cpu: 1
+  memoryMiB: 1024
+
+env:
+  # Non-secret defaults — secrets (GEMINI_API_KEY, FIREBASE_SERVICE_ACCOUNT_JSON
+  # etc.) live in the `settings` table and are read at request time.
+  - variable: NODE_ENV
+    value: production
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_API_URL
+    value: ""
+    availability:
+      - BUILD
+      - RUNTIME
+
+  # DATABASE_URL comes from a Cloud Secret (paste this in App Hosting console)
+  - variable: DATABASE_URL
+    secret: DATABASE_URL
+    availability:
+      - RUNTIME
+
+  - variable: DEV_AUTH_FALLBACK
+    value: "false"
+    availability:
+      - RUNTIME
+
+  - variable: STORAGE_BACKEND
+    value: firebase
+    availability:
+      - RUNTIME
+
+  - variable: FIREBASE_STORAGE_BUCKET
+    value: gad-bi-kdi.firebasestorage.app
+    availability:
+      - RUNTIME

@@ -1,0 +1,92 @@
+{
+  "en": {
+    "app": {
+      "title": "KGD - Document Intelligence",
+      "subtitle": "Government Document Automation"
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "newDocument": "New Document",
+      "templates": "Templates",
+      "knowledge": "Knowledge Base",
+      "history": "History",
+      "settings": "Settings"
+    },
+    "wizard": {
+      "step1": "Select Template",
+      "step2": "Fill Details",
+      "step3": "Preview",
+      "step4": "Generate",
+      "selectTemplate": "Choose a document template",
+      "fillMetadata": "Enter document details",
+      "preview": "Review before generating",
+      "generate": "Generate Document",
+      "download": "Download DOCX"
+    },
+    "fields": {
+      "refNumber": "Reference Number",
+      "date": "Date",
+      "from": "From",
+      "to": "To",
+      "subject": "Subject",
+      "body": "Body Content",
+      "signer": "Signer Name",
+      "signerTitle": "Signer Title",
+      "cc": "CC"
+    },
+    "actions": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "submit": "Submit",
+      "approve": "Approve",
+      "reject": "Reject",
+      "download": "Download",
+      "print": "Print"
+    }
+  },
+  "km": {
+    "app": {
+      "title": "KGD - ប្រព័ន្ធឯកសារឆ្លាតវៃ",
+      "subtitle": "ស្វ័យប្រវត្តិកម្មឯកសាររាជរដ្ឋាភិបាល"
+    },
+    "nav": {
+      "dashboard": "ផ្ទាំងគ្រប់គ្រង",
+      "newDocument": "ឯកសារថ្មី",
+      "templates": "គំរូឯកសារ",
+      "knowledge": "មូលដ្ឋានចំណេះដឹង",
+      "history": "ប្រវត្តិ",
+      "settings": "ការកំណត់"
+    },
+    "wizard": {
+      "step1": "ជ្រើសរើសគំរូ",
+      "step2": "បំពេញព័ត៌មាន",
+      "step3": "ពិនិត្យមុនបង្កើត",
+      "step4": "បង្កើតឯកសារ",
+      "selectTemplate": "ជ្រើសរើសគំរូឯកសារ",
+      "fillMetadata": "បញ្ចូលព័ត៌មានលម្អិត",
+      "preview": "ពិនិត្យមើលមុនពេលបង្កើត",
+      "generate": "បង្កើតឯកសារ",
+      "download": "ទាញយកឯកសារ DOCX"
+    },
+    "fields": {
+      "refNumber": "លេខយោង",
+      "date": "កាលបរិច្ឆេទ",
+      "from": "ពី",
+      "to": "ជូនចំពោះ",
+      "subject": "កម្មវត្ថុ",
+      "body": "ខ្លឹមសារ",
+      "signer": "ឈ្មោះអ្នកចុះហត្ថលេខា",
+      "signerTitle": "តំណែងអ្នកចុះហត្ថលេខា",
+      "cc": "ចម្លង"
+    },
+    "actions": {
+      "save": "រក្សាទុក",
+      "cancel": "បោះបង់",
+      "submit": "បញ្ជូន",
+      "approve": "អនុម័ត",
+      "reject": "បដិសេធ",
+      "download": "ទាញយក",
+      "print": "បោះពុម្ព"
+    }
+  }
+}

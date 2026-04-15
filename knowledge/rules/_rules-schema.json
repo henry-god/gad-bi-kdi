@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "KGD Document Writing Rules",
+  "type": "object",
+  "required": ["templateId", "documentType", "mustWrite", "mustNotWrite", "toneGuidelines"],
+  "properties": {
+    "templateId": { "type": "string" },
+    "documentType": { "type": "string" },
+    "documentTypeKm": { "type": "string" },
+    "mustWrite": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "mustNotWrite": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "toneGuidelines": {
+      "type": "object",
+      "required": ["register", "honorifics", "voice", "politeness"],
+      "properties": {
+        "register": { "type": "string", "enum": ["formal", "semi-formal"] },
+        "honorifics": { "type": "string" },
+        "voice": { "type": "string" },
+        "politeness": { "type": "string" }
+      }
+    },
+    "structureRules": { "type": "object" },
+    "complianceChecks": { "type": "array", "items": { "type": "string" } }
+  }
+}

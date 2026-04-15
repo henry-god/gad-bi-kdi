@@ -1,0 +1,1 @@
+{"category":"public-policy","name":"Public Policy","nameKm":"គោលនយោបាយសាធារណៈ","description":"Ministry directives, policy frameworks, circulars","fields":["policy_title","issuing_authority","scope","objectives","implementation_date"],"relatedTemplates":["policy-report","official-letter","notification"]}

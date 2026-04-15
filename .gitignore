@@ -1,0 +1,25 @@
+node_modules/
+.next/
+dist/
+.env.local
+.env
+.env.*.local
+*.docx
+*.pdf
+!templates/word/*.docx
+__pycache__/
+*.pyc
+.venv/
+uploads/
+output/
+
+# Firebase + secrets
+.firebase/
+*-firebase-adminsdk-*.json
+gad-bi-kdi-*.json
+storage/
+.DS_Store
+
+# Scratch / large source zips not needed at runtime
+Kantumruy_Pro (1)/
+khmer-gov-docs/

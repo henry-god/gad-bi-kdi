@@ -1,0 +1,167 @@
+{
+  "id": "meeting-minutes",
+  "name": "Meeting Minutes",
+  "nameKm": "កំណត់ហេតុប្រជុំ",
+  "category": "minutes",
+  "page": {
+    "size": "A4",
+    "orientation": "portrait",
+    "margins": {
+      "top": 2.54,
+      "bottom": 2.54,
+      "left": 3.17,
+      "right": 2.54
+    }
+  },
+  "fonts": {
+    "title": {
+      "family": "Khmer OS Siemreap",
+      "size": 14,
+      "bold": true
+    },
+    "body": {
+      "family": "Khmer OS Siemreap",
+      "size": 11,
+      "lineSpacing": 1.5
+    },
+    "header": {
+      "family": "Khmer OS Muollight",
+      "size": 11
+    },
+    "footer": {
+      "family": "Khmer OS Siemreap",
+      "size": 9
+    }
+  },
+  "letterhead": {
+    "enabled": true,
+    "logoPosition": "center",
+    "ministryName": true,
+    "departmentName": true,
+    "emblem": true
+  },
+  "footer": {
+    "enabled": true,
+    "pageNumber": true,
+    "address": false
+  },
+  "sections": [
+    {
+      "id": "header_kingdom",
+      "label": "Kingdom Header",
+      "labelKm": "ក្បាលរាជាណាចក្រ",
+      "type": "text",
+      "required": true,
+      "order": 1
+    },
+    {
+      "id": "meeting_title",
+      "label": "Meeting Title",
+      "labelKm": "ចំណងជើងកិច្ចប្រជុំ",
+      "type": "text",
+      "required": true,
+      "order": 2
+    },
+    {
+      "id": "date",
+      "label": "Date & Time",
+      "labelKm": "កាលបរិច្ឆេទ និងម៉ោង",
+      "type": "date",
+      "required": true,
+      "order": 3
+    },
+    {
+      "id": "location",
+      "label": "Location",
+      "labelKm": "ទីកន្លែង",
+      "type": "text",
+      "required": true,
+      "order": 4
+    },
+    {
+      "id": "chairperson",
+      "label": "Chairperson",
+      "labelKm": "ប្រធានកិច្ចប្រជុំ",
+      "type": "text",
+      "required": true,
+      "order": 5
+    },
+    {
+      "id": "attendees",
+      "label": "Attendees",
+      "labelKm": "អ្នកចូលរួម",
+      "type": "table",
+      "required": true,
+      "order": 6
+    },
+    {
+      "id": "agenda",
+      "label": "Agenda",
+      "labelKm": "របៀបវារៈ",
+      "type": "richtext",
+      "required": true,
+      "order": 7
+    },
+    {
+      "id": "discussions",
+      "label": "Discussions",
+      "labelKm": "ការពិភាក្សា",
+      "type": "richtext",
+      "required": true,
+      "order": 8
+    },
+    {
+      "id": "decisions",
+      "label": "Decisions",
+      "labelKm": "សេចក្តីសម្រេច",
+      "type": "richtext",
+      "required": true,
+      "order": 9
+    },
+    {
+      "id": "action_items",
+      "label": "Action Items",
+      "labelKm": "ផែនការសកម្មភាព",
+      "type": "table",
+      "required": false,
+      "order": 10
+    },
+    {
+      "id": "next_meeting",
+      "label": "Next Meeting",
+      "labelKm": "កិច្ចប្រជុំបន្ទាប់",
+      "type": "date",
+      "required": false,
+      "order": 11
+    },
+    {
+      "id": "prepared_by",
+      "label": "Prepared By",
+      "labelKm": "រៀបចំដោយ",
+      "type": "signature",
+      "required": true,
+      "order": 12
+    },
+    {
+      "id": "approved_by",
+      "label": "Approved By",
+      "labelKm": "អនុម័តដោយ",
+      "type": "signature",
+      "required": true,
+      "order": 13
+    }
+  ],
+  "placeholders": {
+    "{{MEETING_TITLE}}": "Meeting title",
+    "{{DATE_TIME}}": "Date and time",
+    "{{LOCATION}}": "Meeting location",
+    "{{CHAIRPERSON}}": "Chairperson name and title",
+    "{{ATTENDEES_TABLE}}": "Table of attendees",
+    "{{AGENDA}}": "Meeting agenda items",
+    "{{DISCUSSIONS}}": "Discussion summary",
+    "{{DECISIONS}}": "Decisions made",
+    "{{ACTION_ITEMS_TABLE}}": "Action items with assignees and deadlines",
+    "{{PREPARED_BY}}": "Note taker name",
+    "{{APPROVED_BY}}": "Approver name and title"
+  }
+}
