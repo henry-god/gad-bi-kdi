@@ -45,8 +45,8 @@ interface SchemaFile {
   entries: SchemaEntry[];
 }
 
-const RULES_DIR = path.join(__dirname, '../../../knowledge/rules');
-const SCHEMA_DIR = path.join(__dirname, '../../../knowledge/schema');
+const RULES_DIR = process.env.KNOWLEDGE_RULES_DIR || path.join(__dirname, '../../../knowledge/rules');
+const SCHEMA_DIR = process.env.KNOWLEDGE_SCHEMA_DIR || path.join(__dirname, '../../../knowledge/schema');
 
 export class KnowledgeService {
   private rulesDir: string;

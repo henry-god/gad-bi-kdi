@@ -1,0 +1,195 @@
+// Prisma Schema — KGD Database
+// NOT USED IN PHASE 1 (stateless). Activate in Phase 5.
+// Run: npx prisma migrate dev
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  admin
+  officer
+  reviewer
+  signer
+}
+
+enum DocumentStatus {
+  draft
+  pending_review
+  reviewed
+  approved
+  signed
+  archived
+}
+
+enum ApprovalAction {
+  submit
+  review
+  approve
+  reject
+  sign
+  archive
+}
+
+model User {
+  id            String   @id @default(uuid())
+  firebaseUid   String   @unique @map("firebase_uid")
+  email         String   @unique
+  name          String
+  nameKm        String?  @map("name_km")
+  role          UserRole @default(officer)
+  department    String?
+  departmentId  String?  @map("department_id")
+  titlePosition String?  @map("title_position")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  documents     Document[]
+  approvals     ApprovalFlow[]
+  versions      DocumentVersion[]
+  auditLogs     AuditLog[]
+  departmentRef Department? @relation(fields: [departmentId], references: [id])
+
+  @@map("users")
+}
+
+model Organization {
+  id          String       @id
+  nameKm      String       @map("name_km")
+  nameEn      String       @map("name_en")
+  aliasKm     String?      @map("alias_km")
+  createdAt   DateTime     @default(now()) @map("created_at")
+
+  departments Department[]
+
+  @@map("organizations")
+}
+
+model Department {
+  id             String       @id @default(uuid())
+  organizationId String       @map("organization_id")
+  parentId      String?       @map("parent_id")
+  nameKm        String        @map("name_km")
+  nameEn        String        @map("name_en")
+  createdAt     DateTime      @default(now()) @map("created_at")
+
+  organization  Organization  @relation(fields: [organizationId], references: [id])
+  parent        Department?   @relation("DepartmentTree", fields: [parentId], references: [id])
+  children      Department[]  @relation("DepartmentTree")
+  users         User[]
+
+  @@unique([organizationId, nameKm])
+  @@map("departments")
+}
+
+model Document {
+  id               String         @id @default(uuid())
+  userId           String         @map("user_id")
+  templateId       String         @map("template_id")
+  status           DocumentStatus @default(draft)
+  title            String
+  titleKm          String?        @map("title_km")
+  inputData        Json           @map("input_data")
+  generatedContent String?        @map("generated_content")
+  outputFilePath   String?        @map("output_file_path")
+  version          Int            @default(1)
+  createdAt        DateTime       @default(now()) @map("created_at")
+  updatedAt        DateTime       @updatedAt @map("updated_at")
+
+  user             User           @relation(fields: [userId], references: [id])
+  versions         DocumentVersion[]
+  approvals        ApprovalFlow[]
+
+  @@map("documents")
+}
+
+model DocumentVersion {
+  id              String   @id @default(uuid())
+  documentId      String   @map("document_id")
+  version         Int
+  contentSnapshot Json     @map("content_snapshot")
+  changedById     String   @map("changed_by")
+  changeSummary   String?  @map("change_summary")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  document        Document @relation(fields: [documentId], references: [id])
+  changedBy       User     @relation(fields: [changedById], references: [id])
+
+  @@map("document_versions")
+}
+
+model ApprovalFlow {
+  id         String         @id @default(uuid())
+  documentId String         @map("document_id")
+  stepOrder  Int            @map("step_order")
+  action     ApprovalAction
+  actorId    String         @map("actor_id")
+  status     String         @default("pending")
+  comments   String?
+  createdAt  DateTime       @default(now()) @map("created_at")
+
+  document   Document       @relation(fields: [documentId], references: [id])
+  actor      User           @relation(fields: [actorId], references: [id])
+
+  @@map("approval_flow")
+}
+
+model Template {
+  id          String   @id
+  name        String
+  nameKm      String   @map("name_km")
+  category    String
+  config      Json
+  isBuiltin   Boolean  @default(false) @map("is_builtin")
+  isActive    Boolean  @default(true)  @map("is_active")
+  sortOrder   Int      @default(0)     @map("sort_order")
+  createdAt   DateTime @default(now())  @map("created_at")
+  updatedAt   DateTime @updatedAt       @map("updated_at")
+  updatedById String?  @map("updated_by")
+
+  @@index([isActive, sortOrder])
+  @@map("templates")
+}
+
+model KnowledgeEntry {
+  id        String   @id @default(uuid())
+  category  String
+  title     String
+  content   String
+  metadata  Json?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("knowledge_entries")
+}
+
+model Setting {
+  key         String   @id
+  value       String
+  secret      Boolean  @default(false)
+  description String?
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  updatedById String?  @map("updated_by")
+
+  @@map("settings")
+}
+
+model AuditLog {
+  id           String   @id @default(uuid())
+  userId       String   @map("user_id")
+  action       String
+  resourceType String   @map("resource_type")
+  resourceId   String?  @map("resource_id")
+  details      Json?
+  ipAddress    String?  @map("ip_address")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  user         User     @relation(fields: [userId], references: [id])
+
+  @@map("audit_logs")
+}

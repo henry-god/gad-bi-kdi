@@ -5,10 +5,19 @@
 import { Router } from 'express';
 import { prisma } from '../services/prisma';
 import { getSetting } from '../services/settings-service';
+import { isFirestore } from '../services/store';
+import firestore from '../services/firestore-service';
 
 const router = Router();
 
 router.get('/users', async (_req, res) => {
+  if (isFirestore()) {
+    const users = await firestore.list<any>('users', { orderBy: [['role', 'asc']], limit: 200 });
+    return res.json({
+      success: true,
+      data: users.map(u => ({ id: u.id, email: u.email, name: u.name, nameKm: u.nameKm, role: u.role })),
+    });
+  }
   const users = await prisma.user.findMany({
     orderBy: { role: 'asc' },
     select: { id: true, email: true, name: true, nameKm: true, role: true },

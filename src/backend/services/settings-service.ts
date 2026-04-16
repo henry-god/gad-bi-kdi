@@ -10,6 +10,7 @@
  */
 
 import { prisma } from './prisma';
+import { isFirestore } from './store';
 
 const CACHE_TTL_MS = 5_000;
 const cache = new Map<string, { value: string | null; expiresAt: number }>();
@@ -222,7 +223,17 @@ export async function getSetting(key: string): Promise<string | null> {
   const hit = cache.get(key);
   if (hit && hit.expiresAt > Date.now()) return hit.value;
 
-  const row = await prisma.setting.findUnique({ where: { key } });
+  let row: { value: string | null } | null = null;
+  try {
+    if (isFirestore()) {
+      const firestore = (await import('./firestore-service')).default;
+      row = await firestore.getOne<any>('settings', key);
+    } else {
+      row = await prisma.setting.findUnique({ where: { key } });
+    }
+  } catch {
+    row = null;
+  }
   const envFallback = process.env[key] ?? null;
   const value = row?.value?.trim() ? row.value : envFallback;
 
@@ -236,24 +247,45 @@ export async function setSetting(opts: {
   updatedById?: string;
 }): Promise<void> {
   const meta = (SETTING_KEYS as any)[opts.key];
-  await prisma.setting.upsert({
-    where: { key: opts.key },
-    update: { value: opts.value, updatedById: opts.updatedById },
-    create: {
+  if (isFirestore()) {
+    const firestore = (await import('./firestore-service')).default;
+    await firestore.upsert('settings', opts.key, {
       key: opts.key,
       value: opts.value,
       secret: meta?.secret ?? false,
-      description: meta?.description,
-      updatedById: opts.updatedById,
-    },
-  });
+      description: meta?.description ?? null,
+      updatedById: opts.updatedById ?? null,
+    });
+  } else {
+    await prisma.setting.upsert({
+      where: { key: opts.key },
+      update: { value: opts.value, updatedById: opts.updatedById },
+      create: {
+        key: opts.key, value: opts.value,
+        secret: meta?.secret ?? false, description: meta?.description,
+        updatedById: opts.updatedById,
+      },
+    });
+  }
   cache.delete(opts.key);
 }
 
 export async function listSettings(): Promise<
   Array<{ key: string; group: string; value: string | null; secret: boolean; description: string | null; hasValue: boolean; updatedAt: Date | null }>
 > {
-  const rows = await prisma.setting.findMany();
+  let rows: Array<{ key: string; value: string | null; updatedAt: Date | null }> = [];
+  try {
+    if (isFirestore()) {
+      const firestore = (await import('./firestore-service')).default;
+      const docs = await firestore.list<any>('settings');
+      rows = docs.map(d => ({ key: d.id, value: d.value ?? null, updatedAt: d.updatedAt?.toDate?.() ?? null }));
+    } else {
+      const pRows = await prisma.setting.findMany();
+      rows = pRows.map(r => ({ key: r.key, value: r.value, updatedAt: r.updatedAt }));
+    }
+  } catch {
+    rows = [];
+  }
   const byKey = new Map(rows.map(r => [r.key, r]));
   const known = Object.entries(SETTING_KEYS).map(([key, meta]) => {
     const row = byKey.get(key);

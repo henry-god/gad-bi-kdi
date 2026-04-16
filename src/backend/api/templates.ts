@@ -31,14 +31,17 @@ const MAX_PREVIEW_DATA_BYTES = 64 * 1024;
 async function writeTemplateAudit(userId: string | undefined, action: string, resourceId: string, details?: any) {
   if (!userId) return;
   try {
-    await prisma.auditLog.create({
-      data: {
-        userId,
-        action,
-        resourceType: 'template',
-        resourceId,
+    const { isFirestore } = await import('../services/store');
+    if (isFirestore()) {
+      const firestore = (await import('../services/firestore-service')).default;
+      await firestore.create('auditLogs', null, {
+        userId, action, resourceType: 'template', resourceId,
         details: details ?? null,
-      },
+      });
+      return;
+    }
+    await prisma.auditLog.create({
+      data: { userId, action, resourceType: 'template', resourceId, details: details ?? null },
     });
   } catch {
     // non-fatal — audit failures should not block admin actions

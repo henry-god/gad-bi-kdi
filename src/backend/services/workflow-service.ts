@@ -15,6 +15,9 @@
  */
 
 import { prisma } from './prisma';
+import { isFirestore } from './store';
+import firestore from './firestore-service';
+import admin from 'firebase-admin';
 
 type Status =
   | 'draft'
@@ -66,6 +69,62 @@ export async function transition(opts: {
   }
   if (rule.requireComment && !opts.comments?.trim()) {
     throw new WorkflowError(`Action '${opts.action}' requires comments`);
+  }
+
+  if (isFirestore()) {
+    return firestore.runTransaction(async (tx) => {
+      const db = firestore.db();
+      const docRef = db.collection('documents').doc(opts.documentId);
+      const docSnap = await tx.get(docRef);
+      if (!docSnap.exists) throw new WorkflowError('Document not found', 404);
+      const doc = { id: docSnap.id, ...(docSnap.data() as any) };
+
+      if (rule.ownerOnly && doc.userId !== opts.actor.id) {
+        throw new WorkflowError('Only the document owner can perform this action', 403);
+      }
+      if (!rule.from.includes(doc.status as Status)) {
+        throw new WorkflowError(
+          `Cannot ${opts.action} from status '${doc.status}' (must be one of ${rule.from.join(', ')})`,
+        );
+      }
+
+      // step order = 1 + max existing; computed via a pre-transaction read
+      // (Firestore requires all reads before writes inside a txn)
+      const flowSnap = await db.collection('approvalFlow')
+        .where('documentId', '==', doc.id)
+        .orderBy('stepOrder', 'desc')
+        .limit(1)
+        .get();
+      const stepOrder = (flowSnap.empty ? 0 : (flowSnap.docs[0].data().stepOrder ?? 0)) + 1;
+
+      const now = admin.firestore.FieldValue.serverTimestamp();
+
+      if (opts.action === 'submit') {
+        const versionRef = docRef.collection('versions').doc(String(doc.version ?? 1));
+        tx.set(versionRef, {
+          version: doc.version ?? 1,
+          contentSnapshot: doc.inputData || {},
+          changedById: opts.actor.id,
+          changeSummary: `Submitted v${doc.version ?? 1} for review`,
+          createdAt: now,
+        });
+      }
+
+      tx.update(docRef, { status: rule.to, updatedAt: now });
+      tx.set(db.collection('approvalFlow').doc(), {
+        documentId: doc.id, stepOrder, action: opts.action, actorId: opts.actor.id,
+        status: 'completed', comments: opts.comments ?? null,
+        createdAt: now, updatedAt: now,
+      });
+      tx.set(db.collection('auditLogs').doc(), {
+        userId: opts.actor.id, action: `document.${opts.action}`,
+        resourceType: 'document', resourceId: doc.id,
+        details: { from: doc.status, to: rule.to, comments: opts.comments ?? null },
+        ipAddress: opts.ipAddress ?? null,
+        createdAt: now, updatedAt: now,
+      });
+      return { ...doc, status: rule.to };
+    });
   }
 
   return prisma.$transaction(async (tx) => {
@@ -132,6 +191,12 @@ export async function transition(opts: {
 }
 
 export async function listApprovalHistory(documentId: string) {
+  if (isFirestore()) {
+    return firestore.list<any>('approvalFlow', {
+      where: [['documentId', '==', documentId]],
+      orderBy: [['stepOrder', 'asc']],
+    });
+  }
   return prisma.approvalFlow.findMany({
     where: { documentId },
     orderBy: { stepOrder: 'asc' },
@@ -140,6 +205,11 @@ export async function listApprovalHistory(documentId: string) {
 }
 
 export async function listDocumentVersions(documentId: string) {
+  if (isFirestore()) {
+    return firestore.sublist<any>('documents', documentId, 'versions', {
+      orderBy: [['version', 'desc']],
+    });
+  }
   return prisma.documentVersion.findMany({
     where: { documentId },
     orderBy: { version: 'desc' },
@@ -150,6 +220,13 @@ export async function listDocumentVersions(documentId: string) {
 export async function listPendingReview(actor: Actor) {
   if (!['reviewer', 'admin'].includes(actor.role)) {
     throw new WorkflowError('Role cannot view approval queue', 403);
+  }
+  if (isFirestore()) {
+    return firestore.list<any>('documents', {
+      where: [['status', 'in', ['pending_review', 'reviewed']]],
+      orderBy: [['updatedAt', 'asc']],
+      limit: 100,
+    });
   }
   return prisma.document.findMany({
     where: { status: { in: ['pending_review', 'reviewed'] } },

@@ -73,7 +73,7 @@ const lineSpacingToTwips = (spacing: number): number => Math.round(spacing * 240
 export class TemplateEngine {
   private configDir: string;
 
-  constructor(configDir: string = path.join(__dirname, '../../../templates/config')) {
+  constructor(configDir: string = process.env.TEMPLATE_CONFIG_DIR || path.join(__dirname, '../../../templates/config')) {
     this.configDir = configDir;
   }
 

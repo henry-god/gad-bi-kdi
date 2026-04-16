@@ -8,7 +8,8 @@
       "storage/**",
       "output/**",
       "tests/**",
-      "docs/**"
+      "docs/**",
+      "functions/**"
     ],
     "frameworksBackend": {
       "region": "asia-southeast1"
@@ -16,9 +17,21 @@
     "rewrites": [
       {
         "source": "/api/**",
-        "run": { "serviceId": "ssrgadbikdi", "region": "asia-southeast1" }
+        "function": { "functionId": "api", "region": "asia-southeast1" }
       }
     ]
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "api",
+      "runtime": "nodejs20",
+      "ignore": ["node_modules", ".git"]
+    }
+  ],
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   },
   "storage": {
     "rules": "storage.rules"
