@@ -19,6 +19,8 @@ const NAV: NavItem[] = [
   { href: '/documents',     icon: '📄', labelKm: 'ឯកសារ',       labelEn: 'My Docs',
     match: (p) => p.startsWith('/documents') && !p.startsWith('/documents/new') },
   { href: '/documents/new', icon: '➕', labelKm: 'បង្កើត',      labelEn: 'New' },
+  { href: '/inbox',          icon: '📥', labelKm: 'សំបុត្រ',      labelEn: 'Inbox',
+    match: (p) => p.startsWith('/inbox') },
   { href: '/approvals',     icon: '✅', labelKm: 'ពិនិត្យ',      labelEn: 'Approvals' },
   { href: '/vault',          icon: '📦', labelKm: 'ឃ្លាំង',        labelEn: 'Vault',
     match: (p) => p.startsWith('/vault') },

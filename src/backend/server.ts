@@ -30,6 +30,7 @@ import graphRouter from './api/graph';
 import auditRouter from './api/audit';
 import searchRouter from './api/search';
 import vaultRouter from './api/vault';
+import threadsRouter from './api/threads';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -82,6 +83,7 @@ app.use('/api/graph', devAuth, graphRouter);
 app.use('/api', devAuth, auditRouter);
 app.use('/api', devAuth, searchRouter);
 app.use('/api/vault', devAuth, vaultRouter);
+app.use('/api/threads', devAuth, threadsRouter);
 
 // Graceful-degrade error handler: Prisma/DB failures in production (no
 // DATABASE_URL wired yet) shouldn't take the whole UI down. Read routes
