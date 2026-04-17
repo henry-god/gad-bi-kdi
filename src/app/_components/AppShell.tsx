@@ -24,6 +24,8 @@ const NAV: NavItem[] = [
     match: (p) => p.startsWith('/vault') },
   { href: '/templates',     icon: '📋', labelKm: 'គំរូ',         labelEn: 'Templates',
     match: (p) => p.startsWith('/templates') },
+  { href: '/users',          icon: '👥', labelKm: 'អ្នកប្រើ',      labelEn: 'Users',
+    match: (p) => p.startsWith('/users') },
   { href: '/settings',      icon: '⚙',  labelKm: 'ការកំណត់',    labelEn: 'Settings' },
   { href: '/audit',         icon: '🧾', labelKm: 'កំណត់ត្រា',    labelEn: 'Audit' },
 ];

@@ -69,8 +69,8 @@ app.get('/api/health', (_req, res) => {
 
 app.use('/api/templates', templatesRouter);
 app.use('/api/auth', (req, res, next) => {
-  // Public routes: users list (dev), public Firebase config
-  if (req.path === '/users' || req.path === '/public-config') return next();
+  // Public routes (read-only): users list, departments, public Firebase config
+  if (req.method === 'GET' && (req.path === '/users' || req.path === '/public-config' || req.path === '/departments')) return next();
   return devAuth(req, res, next);
 }, authRouter);
 app.use('/api/documents', devAuth, documentsRouter);
