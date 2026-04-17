@@ -12,6 +12,7 @@
  */
 
 import firestore from './firestore-service';
+import { notifyThreadArrived, notifyThreadBounced, notifyThreadSigned } from './notification-service';
 
 // ---------------------------------------------------------------------------
 // Enums
@@ -229,12 +230,21 @@ export async function submitUp(opts: {
     timeHeldMs: 0,
   });
 
-  return firestore.update<DocumentThread>('threads', opts.threadId, {
+  const updated = await firestore.update<DocumentThread>('threads', opts.threadId, {
     currentLevel: toLevel,
     currentHolderId: opts.targetHolderId,
     direction: 'up',
     status: newStatus,
   });
+
+  // Notify target holder
+  notifyThreadArrived({
+    targetUserId: opts.targetHolderId, threadId: thread.id,
+    threadTitle: thread.title, threadTitleKm: thread.titleKm,
+    fromLevel: opts.actorLevel, action: 'SUBMIT',
+  }).catch(() => {});
+
+  return updated;
 }
 
 // ── Approve ─────────────────────────────────────────────────────────
@@ -267,12 +277,20 @@ export async function approveAt(opts: {
     timeHeldMs: 0,
   });
 
-  return firestore.update<DocumentThread>('threads', opts.threadId, {
+  const updated = await firestore.update<DocumentThread>('threads', opts.threadId, {
     currentLevel: toLevel,
     currentHolderId: opts.targetHolderId,
     direction: 'up',
     status: newStatus,
   });
+
+  notifyThreadArrived({
+    targetUserId: opts.targetHolderId, threadId: thread.id,
+    threadTitle: thread.title, threadTitleKm: thread.titleKm,
+    fromLevel: opts.actorLevel, action: 'APPROVE',
+  }).catch(() => {});
+
+  return updated;
 }
 
 // ── Bounce down ─────────────────────────────────────────────────────
@@ -309,13 +327,21 @@ export async function bounceDown(opts: {
     timeHeldMs: 0,
   });
 
-  return firestore.update<DocumentThread>('threads', opts.threadId, {
+  const updated = await firestore.update<DocumentThread>('threads', opts.threadId, {
     currentLevel: opts.toLevel,
     currentHolderId: opts.targetHolderId,
     direction: 'down',
     status: 'BOUNCED',
     bounceCount: (thread.bounceCount || 0) + 1,
   });
+
+  notifyThreadBounced({
+    targetUserId: opts.targetHolderId, threadId: thread.id,
+    threadTitle: thread.title, threadTitleKm: thread.titleKm,
+    fromLevel: opts.actorLevel, notes: opts.notes,
+  }).catch(() => {});
+
+  return updated;
 }
 
 // ── Revise ──────────────────────────────────────────────────────────
@@ -425,10 +451,18 @@ export async function sign(opts: {
     timeHeldMs: 0,
   });
 
-  return firestore.update<DocumentThread>('threads', opts.threadId, {
+  const updated = await firestore.update<DocumentThread>('threads', opts.threadId, {
     status: 'SIGNED',
     direction: 'up',
   });
+
+  // Notify the original creator
+  notifyThreadSigned({
+    creatorId: thread.createdById, threadId: thread.id,
+    threadTitle: thread.title, threadTitleKm: thread.titleKm,
+  }).catch(() => {});
+
+  return updated;
 }
 
 // ── Annotate ────────────────────────────────────────────────────────

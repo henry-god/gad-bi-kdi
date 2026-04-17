@@ -5,7 +5,7 @@
   "description": "Firebase Functions entrypoint for the KGD Express API (/api/**)",
   "main": "dist/functions/index.js",
   "engines": {
-    "node": "20"
+    "node": "22"
   },
   "scripts": {
     "build": "tsc -p .",

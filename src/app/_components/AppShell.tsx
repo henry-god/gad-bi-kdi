@@ -2,9 +2,88 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import RoleSwitcher from './RoleSwitcher';
 import CommandPalette from './CommandPalette';
+
+function NotificationBell() {
+  const [count, setCount] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [items, setItems] = useState<any[]>([]);
+  const ref = useRef<HTMLDivElement>(null);
+
+  const load = useCallback(() => {
+    fetch('/api/threads/notifications/unread').then(r => r.json()).then(r => {
+      if (r.success) setCount(r.data.count);
+    }).catch(() => {});
+  }, []);
+
+  useEffect(() => { load(); const t = setInterval(load, 30000); return () => clearInterval(t); }, [load]);
+
+  useEffect(() => {
+    if (!open) return;
+    fetch('/api/threads/notifications?limit=10').then(r => r.json()).then(r => {
+      if (r.success) setItems(r.data);
+    });
+  }, [open]);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  async function markAllRead() {
+    await fetch('/api/threads/notifications/read', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    setCount(0);
+    setItems(prev => prev.map(n => ({ ...n, read: true })));
+  }
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen(v => !v)}
+        className="relative text-kgd-muted hover:text-kgd-text transition-colors p-1"
+        aria-label="Notifications"
+      >
+        <span className="text-lg">🔔</span>
+        {count > 0 && (
+          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center font-bold">
+            {count > 9 ? '9+' : count}
+          </span>
+        )}
+      </button>
+      {open && (
+        <div className="absolute right-0 top-full mt-2 w-80 bg-kgd-surface border border-kgd-border rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
+          <div className="flex items-center justify-between px-3 py-2 border-b border-kgd-border">
+            <span className="text-sm font-medium text-kgd-text">Notifications</span>
+            {count > 0 && (
+              <button onClick={markAllRead} className="text-xs text-kgd-blue hover:underline">Mark all read</button>
+            )}
+          </div>
+          {items.length === 0 ? (
+            <div className="px-3 py-6 text-center text-sm text-kgd-muted">No notifications</div>
+          ) : (
+            items.map(n => (
+              <a
+                key={n.id}
+                href={n.link || '/inbox'}
+                className={`block px-3 py-2 hover:bg-kgd-elevated border-b border-kgd-border/40 last:border-b-0 ${!n.read ? 'bg-kgd-blue/5' : ''}`}
+              >
+                <div className="text-xs text-kgd-text">{n.titleKm || n.title}</div>
+                {n.body && <div className="text-[10px] text-kgd-muted truncate mt-0.5">{n.body}</div>}
+              </a>
+            ))
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
 interface NavItem {
   href: string;
@@ -129,6 +208,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <div className="flex-1 min-w-0">
               <Breadcrumb />
             </div>
+            <NotificationBell />
             <CommandPalette />
             <RoleSwitcher />
           </div>

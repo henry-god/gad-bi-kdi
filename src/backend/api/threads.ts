@@ -29,6 +29,7 @@ import {
   getVersions, listThreads,
 } from '../services/thread-engine';
 import { getMyInbox, getInboxStats } from '../services/inbox-service';
+import { getUnreadCount, listNotifications, markRead, markAllRead } from '../services/notification-service';
 import firestore from '../services/firestore-service';
 
 const router = Router();
@@ -74,6 +75,43 @@ router.get('/', async (req, res) => {
     res.status(500).json({ success: false, error: e.message });
   }
 });
+
+// ── Notifications (must be before /:id to avoid param capture) ──────
+
+router.get('/notifications/unread', async (req, res) => {
+  try {
+    const count = await getUnreadCount(req.user!.id);
+    res.json({ success: true, data: { count } });
+  } catch (e: any) {
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+router.get('/notifications', async (req, res) => {
+  try {
+    const limit = req.query.limit ? parseInt(req.query.limit as string) : 20;
+    const data = await listNotifications(req.user!.id, limit);
+    res.json({ success: true, data });
+  } catch (e: any) {
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+router.post('/notifications/read', async (req, res) => {
+  try {
+    const { ids } = req.body;
+    if (ids && Array.isArray(ids)) {
+      await markRead(req.user!.id, ids);
+    } else {
+      await markAllRead(req.user!.id);
+    }
+    res.json({ success: true });
+  } catch (e: any) {
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+// ── Thread detail ───────────────────────────────────────────────────
 
 router.get('/:id', async (req, res) => {
   try {
