@@ -17,6 +17,8 @@ process.env.TEMPLATE_CONFIG_DIR = process.env.TEMPLATE_CONFIG_DIR || path.join(F
 process.env.KNOWLEDGE_RULES_DIR = process.env.KNOWLEDGE_RULES_DIR || path.join(FN_ROOT, 'knowledge', 'rules');
 process.env.KNOWLEDGE_SCHEMA_DIR = process.env.KNOWLEDGE_SCHEMA_DIR || path.join(FN_ROOT, 'knowledge', 'schema');
 process.env.STORAGE_ROOT = process.env.STORAGE_ROOT || '/tmp/kgd-storage';
+// Firebase Storage for DOCX blobs (V5-M7.1) — no ephemeral /tmp.
+process.env.STORAGE_BACKEND = process.env.STORAGE_BACKEND || 'firebase';
 // Firestore in production (V5-M7) — no Postgres DATABASE_URL needed.
 process.env.KGD_STORE = process.env.KGD_STORE || 'firestore';
 process.env.FIRESTORE_DATABASE_ID = process.env.FIRESTORE_DATABASE_ID || '(default)';

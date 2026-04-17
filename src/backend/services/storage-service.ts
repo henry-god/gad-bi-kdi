@@ -18,7 +18,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { getSetting } from './settings-service';
 
-const STORAGE_ROOT = path.join(__dirname, '../../../storage/documents');
+const STORAGE_ROOT = process.env.STORAGE_ROOT
+  ? path.join(process.env.STORAGE_ROOT, 'documents')
+  : path.join(__dirname, '../../../storage/documents');
 
 async function resolveBackend(): Promise<'local' | 'firebase'> {
   const envBackend = process.env.STORAGE_BACKEND;
@@ -65,21 +67,25 @@ async function getFirebaseBucket() {
     (await getSetting('FIREBASE_STORAGE_BUCKET')) ||
     'gad-bi-kdi.firebasestorage.app';
 
-  // Reuse an app if one has been initialized by the auth middleware
+  // Reuse the default admin app already initialized by firestore-service.
+  // In Cloud Functions this uses ADC — no service account JSON needed.
   let app: any;
-  try {
-    app = admin.app('kgd-storage');
-  } catch {
+  if (admin.apps.length) {
+    app = admin.apps[0];
+  } else {
+    // Standalone/local — try explicit creds, fall back to ADC.
     const saJson =
       process.env.FIREBASE_SERVICE_ACCOUNT_JSON ||
       (await getSetting('FIREBASE_SERVICE_ACCOUNT_JSON'));
-    if (!saJson) {
-      throw new Error('Firebase Storage backend requested but FIREBASE_SERVICE_ACCOUNT_JSON not configured');
+    if (saJson && saJson.trim().startsWith('{')) {
+      const parsed = JSON.parse(saJson);
+      app = admin.initializeApp(
+        { credential: admin.credential.cert(parsed), storageBucket: bucketName },
+        'kgd-storage',
+      );
+    } else {
+      app = admin.initializeApp({ storageBucket: bucketName }, 'kgd-storage');
     }
-    app = admin.initializeApp(
-      { credential: admin.credential.cert(JSON.parse(saJson)), storageBucket: bucketName },
-      'kgd-storage',
-    );
   }
 
   return app.storage().bucket(bucketName);
