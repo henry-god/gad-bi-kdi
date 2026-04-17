@@ -106,9 +106,9 @@ const LEVEL_ACTIONS: Record<number, ActionType[]> = {
   1: ['SIGN', 'APPROVE', 'BOUNCE', 'ANNOTATE', 'ARCHIVE'],
   2: ['APPROVE', 'REVIEW', 'BOUNCE', 'ANNOTATE', 'FORWARD'],
   3: ['APPROVE', 'REVIEW', 'BOUNCE', 'ASSIGN', 'ANNOTATE'],
-  4: ['REVIEW', 'BOUNCE', 'ASSIGN', 'ANNOTATE'],
-  5: ['REVIEW', 'BOUNCE', 'CREATE', 'ANNOTATE', 'ASSIGN'],
-  6: ['REVIEW', 'BOUNCE', 'CREATE', 'ANNOTATE'],
+  4: ['APPROVE', 'REVIEW', 'BOUNCE', 'ASSIGN', 'ANNOTATE'],
+  5: ['APPROVE', 'REVIEW', 'BOUNCE', 'CREATE', 'SUBMIT', 'ANNOTATE', 'ASSIGN'],
+  6: ['REVIEW', 'SUBMIT', 'BOUNCE', 'CREATE', 'ANNOTATE'],
   7: ['CREATE', 'SUBMIT', 'REVISE', 'RESUBMIT', 'ANNOTATE', 'RECALL'],
 };
 
@@ -207,9 +207,9 @@ export async function submitUp(opts: {
   const thread = await firestore.getOne<DocumentThread>('threads', opts.threadId);
   if (!thread) throw new Error('Thread not found');
   if (thread.currentHolderId !== opts.actorId) throw new Error('Not the current holder');
-  if (!['CREATED', 'REVISION', 'RESUBMITTED'].includes(thread.status) && opts.actorLevel >= 5) {
-    // L5-L7 can only submit from CREATED/REVISION/RESUBMITTED
-  }
+  if (!canPerform(opts.actorLevel, 'SUBMIT')) throw new Error(`L${opts.actorLevel} cannot submit`);
+  const validStatuses = ['CREATED', 'REVISION', 'RESUBMITTED', 'SUBMITTED', 'IN_REVIEW', 'APPROVED_LEVEL'];
+  if (!validStatuses.includes(thread.status)) throw new Error(`Cannot submit from ${thread.status}`);
 
   const toLevel = opts.actorLevel - 1;
   if (toLevel < 1) throw new Error('Cannot submit above L1');

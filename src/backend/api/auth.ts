@@ -15,7 +15,7 @@ router.get('/users', async (_req, res) => {
     const users = await firestore.list<any>('users', { orderBy: [['role', 'asc']], limit: 200 });
     return res.json({
       success: true,
-      data: users.map(u => ({ id: u.id, email: u.email, name: u.name, nameKm: u.nameKm, role: u.role, departmentId: u.departmentId, titlePosition: u.titlePosition })),
+      data: users.map(u => ({ id: u.id, email: u.email, name: u.name, nameKm: u.nameKm, role: u.role, level: u.level ?? null, departmentId: u.departmentId, titlePosition: u.titlePosition })),
     });
   }
   const users = await prisma.user.findMany({
@@ -27,12 +27,13 @@ router.get('/users', async (_req, res) => {
 
 router.post('/users', async (req, res) => {
   try {
-    const { email, name, nameKm, role, departmentId, titlePosition } = req.body;
+    const { email, name, nameKm, role, level, departmentId, titlePosition } = req.body;
     if (!email || !name) return res.status(400).json({ success: false, error: 'email and name required' });
     if (isFirestore()) {
       const user = await firestore.create<any>('users', null, {
         email, name, nameKm: nameKm || null,
         role: role || 'officer',
+        level: level != null ? Number(level) : null,
         departmentId: departmentId || null,
         titlePosition: titlePosition || null,
         firebaseUid: null, department: null,
@@ -50,12 +51,13 @@ router.post('/users', async (req, res) => {
 
 router.put('/users/:id', async (req, res) => {
   try {
-    const { name, nameKm, role, departmentId, titlePosition } = req.body;
+    const { name, nameKm, role, level, departmentId, titlePosition } = req.body;
     if (isFirestore()) {
       const updates: any = {};
       if (name !== undefined) updates.name = name;
       if (nameKm !== undefined) updates.nameKm = nameKm;
       if (role !== undefined) updates.role = role;
+      if (level !== undefined) updates.level = level != null ? Number(level) : null;
       if (departmentId !== undefined) updates.departmentId = departmentId;
       if (titlePosition !== undefined) updates.titlePosition = titlePosition;
       const user = await firestore.update<any>('users', req.params.id, updates);

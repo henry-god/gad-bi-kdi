@@ -10,6 +10,7 @@ interface User {
   name: string;
   nameKm?: string;
   role: string;
+  level?: number | null;
   departmentId?: string;
   titlePosition?: string;
 }
@@ -42,11 +43,13 @@ export default function UsersPage() {
   const [newName, setNewName] = useState('');
   const [newNameKm, setNewNameKm] = useState('');
   const [newRole, setNewRole] = useState('officer');
+  const [newLevel, setNewLevel] = useState('7');
   const [newDept, setNewDept] = useState('');
   const [newTitle, setNewTitle] = useState('');
 
   // Edit state
   const [editRole, setEditRole] = useState('');
+  const [editLevel, setEditLevel] = useState('7');
   const [editDept, setEditDept] = useState('');
   const [editTitle, setEditTitle] = useState('');
   const [editNameKm, setEditNameKm] = useState('');
@@ -75,13 +78,14 @@ export default function UsersPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         email: newEmail, name: newName, nameKm: newNameKm || undefined,
-        role: newRole, departmentId: newDept || undefined,
+        role: newRole, level: newLevel ? parseInt(newLevel) : null,
+        departmentId: newDept || undefined,
         titlePosition: newTitle || undefined,
       }),
     });
     if (res.success) {
       setShowCreate(false);
-      setNewEmail(''); setNewName(''); setNewNameKm(''); setNewRole('officer'); setNewDept(''); setNewTitle('');
+      setNewEmail(''); setNewName(''); setNewNameKm(''); setNewRole('officer'); setNewLevel('7'); setNewDept(''); setNewTitle('');
       load();
     } else {
       alert(res.error);
@@ -91,6 +95,7 @@ export default function UsersPage() {
   function startEdit(u: User) {
     setEditing(u.id);
     setEditRole(u.role);
+    setEditLevel(String(u.level ?? 7));
     setEditDept(u.departmentId || '');
     setEditTitle(u.titlePosition || '');
     setEditNameKm(u.nameKm || '');
@@ -101,7 +106,8 @@ export default function UsersPage() {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        role: editRole, departmentId: editDept || null,
+        role: editRole, level: editLevel ? parseInt(editLevel) : null,
+        departmentId: editDept || null,
         titlePosition: editTitle || null, nameKm: editNameKm || null,
       }),
     });
@@ -146,6 +152,9 @@ export default function UsersPage() {
               <select className={selectCls} value={newRole} onChange={e => setNewRole(e.target.value)}>
                 {ROLES.map(r => <option key={r} value={r}>{r}</option>)}
               </select>
+              <select className={selectCls} value={newLevel} onChange={e => setNewLevel(e.target.value)}>
+                {[1,2,3,4,5,6,7].map(l => <option key={l} value={l}>L{l}</option>)}
+              </select>
               <select className={selectCls} value={newDept} onChange={e => setNewDept(e.target.value)}>
                 <option value="">— Department —</option>
                 {depts.map(d => <option key={d.id} value={d.id}>{d.nameKm}</option>)}
@@ -171,6 +180,7 @@ export default function UsersPage() {
                   <th className="text-left px-3 py-2 font-medium">User</th>
                   <th className="text-left px-3 py-2 font-medium">Email</th>
                   <th className="text-left px-3 py-2 font-medium">Role</th>
+                  <th className="text-left px-3 py-2 font-medium">Level</th>
                   <th className="text-left px-3 py-2 font-medium">Department</th>
                   <th className="text-left px-3 py-2 font-medium">Title</th>
                   <th className="text-right px-3 py-2 font-medium">Actions</th>
@@ -189,6 +199,11 @@ export default function UsersPage() {
                         <td className="px-3 py-2">
                           <select className={selectCls} value={editRole} onChange={e => setEditRole(e.target.value)}>
                             {ROLES.map(r => <option key={r} value={r}>{r}</option>)}
+                          </select>
+                        </td>
+                        <td className="px-3 py-2">
+                          <select className={selectCls} value={editLevel} onChange={e => setEditLevel(e.target.value)}>
+                            {[1,2,3,4,5,6,7].map(l => <option key={l} value={l}>L{l}</option>)}
                           </select>
                         </td>
                         <td className="px-3 py-2">
@@ -217,6 +232,7 @@ export default function UsersPage() {
                         <td className="px-3 py-2">
                           <Badge tone={ROLE_COLORS[u.role] || 'neutral'}>{u.role}</Badge>
                         </td>
+                        <td className="px-3 py-2 text-kgd-text text-xs font-mono">{u.level != null ? `L${u.level}` : '—'}</td>
                         <td className="px-3 py-2 text-kgd-text font-khmer text-xs">{deptName(u.departmentId)}</td>
                         <td className="px-3 py-2 text-kgd-muted text-xs">{u.titlePosition || '—'}</td>
                         <td className="px-3 py-2 text-right">
