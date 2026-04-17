@@ -83,9 +83,15 @@ export async function transcribeAudio(opts: {
   const saJson = await getSetting('FIREBASE_SERVICE_ACCOUNT_JSON');
   const sttAuth = saJson ? buildCredentialsFromServiceAccount(saJson) : null;
 
-  stages.push({ stage: 'upload', ms: Date.now() - uploadStart, mode: sttAuth ? 'live' : 'mock' });
+  // In Cloud Functions, ADC provides credentials automatically — no
+  // service account JSON needed.  Only fall back to mock when we have
+  // neither explicit creds NOR a cloud environment.
+  const hasADC = Boolean(process.env.K_SERVICE || process.env.GOOGLE_APPLICATION_CREDENTIALS);
+  const canTranscribe = Boolean(sttAuth || hasADC);
 
-  if (!sttAuth) {
+  stages.push({ stage: 'upload', ms: Date.now() - uploadStart, mode: canTranscribe ? 'live' : 'mock' });
+
+  if (!canTranscribe) {
     const mock = mockTranscribe(opts);
     mock.stages = [
       ...stages,
@@ -106,7 +112,7 @@ export async function transcribeAudio(opts: {
   let confidence = 0;
   let totalSeconds = 0;
   try {
-    const client = new SpeechClient(sttAuth);
+    const client = sttAuth ? new SpeechClient(sttAuth) : new SpeechClient();
     const [response] = await client.recognize({
       audio: { content: opts.bytes.toString('base64') },
       config: {
