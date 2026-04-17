@@ -13,6 +13,8 @@
 
 import firestore from './firestore-service';
 import { notifyThreadArrived, notifyThreadBounced, notifyThreadSigned } from './notification-service';
+import { saveDocument } from './storage-service';
+import { resolveLetterhead } from './document-service';
 
 // ---------------------------------------------------------------------------
 // Enums
@@ -579,4 +581,37 @@ export async function listThreads(opts?: {
     orderBy: [['updatedAt', 'desc']],
     limit: opts?.limit || 100,
   });
+}
+
+// ---------------------------------------------------------------------------
+// DOCX generation from thread content
+// ---------------------------------------------------------------------------
+
+export async function generateThreadDocx(threadId: string, userId: string): Promise<{ buffer: Buffer; filePath: string }> {
+  const thread = await firestore.getOne<DocumentThread>('threads', threadId);
+  if (!thread) throw new Error('Thread not found');
+
+  const TemplateEngine = (await import('./template-engine')).default;
+  const engine = new TemplateEngine();
+
+  const resolved = await resolveLetterhead(userId);
+  const mergedData: Record<string, string> = {
+    ministry_name: resolved.ministry_name,
+    department_name: resolved.department_name,
+  };
+  // Flatten latestContent into string key-value pairs
+  for (const [k, v] of Object.entries(thread.latestContent || {})) {
+    mergedData[k] = typeof v === 'string' ? v : JSON.stringify(v);
+  }
+
+  const buffer = await engine.generate(thread.templateId, mergedData);
+  const storageKey = `threads/${threadId}/v${thread.currentVersion}.docx`;
+
+  // Save to Firebase Storage
+  const filePath = await saveDocument(storageKey, buffer);
+
+  // Update thread with docx path
+  await firestore.update('threads', threadId, { docxPath: filePath });
+
+  return { buffer, filePath };
 }

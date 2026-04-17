@@ -130,6 +130,12 @@ export default function ThreadDetailPage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <a
+              href={`/api/threads/${id}/generate-docx`}
+              className="text-xs bg-kgd-elevated border border-kgd-border rounded px-2 py-1 text-kgd-blue hover:bg-kgd-blue/10 transition-colors"
+            >
+              Download DOCX
+            </a>
             <Badge tone={sb.tone}>{sb.label}</Badge>
             {thread.priority === 'urgent' && <Badge tone="amber">URGENT</Badge>}
             <span className="text-lg">{thread.direction === 'up' ? '↑' : '↓'}</span>
@@ -252,7 +258,7 @@ export default function ThreadDetailPage() {
 
               {/* Bounce */}
               {['SUBMITTED', 'IN_REVIEW', 'APPROVED_LEVEL', 'RESUBMITTED', 'PENDING_SIGN'].includes(thread.status) && (
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 flex-wrap">
                   <select
                     value={bounceLevel}
                     onChange={e => setBounceLevel(parseInt(e.target.value))}
@@ -261,6 +267,23 @@ export default function ThreadDetailPage() {
                     {[3,4,5,6,7].filter(l => l > thread.currentLevel).map(l => (
                       <option key={l} value={l}>→ L{l}</option>
                     ))}
+                  </select>
+                  <select
+                    value={bounceReason}
+                    onChange={e => setBounceReason(e.target.value)}
+                    className="bg-kgd-elevated border border-kgd-border rounded px-2 py-1 text-xs text-kgd-text"
+                  >
+                    <option value="wrong_reference">Wrong reference</option>
+                    <option value="missing_attachment">Missing attachment</option>
+                    <option value="incorrect_budget">Incorrect budget</option>
+                    <option value="citation_error">Citation error</option>
+                    <option value="tone_wording">Tone/wording</option>
+                    <option value="missing_parallel_approval">Missing approval</option>
+                    <option value="factual_error">Factual error</option>
+                    <option value="incomplete_info">Incomplete info</option>
+                    <option value="misaligned_directive">Misaligned directive</option>
+                    <option value="formatting_violation">Formatting</option>
+                    <option value="other">Other</option>
                   </select>
                   <Button
                     onClick={() => doAction('bounce', {

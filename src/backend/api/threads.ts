@@ -26,7 +26,7 @@ import {
   createThread, submitUp, approveAt, bounceDown,
   reviseDraft, resubmitRevision, sign, annotate,
   cancelThread, archiveThread, getThread, getTimeline,
-  getVersions, listThreads,
+  getVersions, listThreads, generateThreadDocx,
 } from '../services/thread-engine';
 import { getMyInbox, getInboxStats } from '../services/inbox-service';
 import { getUnreadCount, listNotifications, markRead, markAllRead } from '../services/notification-service';
@@ -265,6 +265,19 @@ router.post('/:id/archive', async (req, res) => {
       actorLevel: level,
     });
     res.json({ success: true, data: thread });
+  } catch (e: any) {
+    res.status(400).json({ success: false, error: e.message });
+  }
+});
+
+// ── DOCX generation ─────────────────────────────────────────────────
+
+router.post('/:id/generate-docx', async (req, res) => {
+  try {
+    const { buffer } = await generateThreadDocx(req.params.id, req.user!.id);
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    res.setHeader('Content-Disposition', `attachment; filename="thread-${req.params.id.slice(0, 8)}.docx"`);
+    res.send(buffer);
   } catch (e: any) {
     res.status(400).json({ success: false, error: e.message });
   }
