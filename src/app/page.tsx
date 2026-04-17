@@ -28,6 +28,18 @@ interface AuditRow {
   user: { name: string; nameKm: string | null; role: string; email: string };
 }
 
+interface ThreadRow {
+  id: string;
+  title: string;
+  titleKm?: string;
+  status: string;
+  currentLevel: number;
+  bounceCount: number;
+  currentVersion: number;
+  direction: string;
+  updatedAt?: any;
+}
+
 interface Stats {
   scope: 'self' | 'all';
   counts: Record<string, number>;
@@ -35,6 +47,11 @@ interface Stats {
   pendingReview: number;
   recentDocs: DocRow[];
   recentAudit: AuditRow[];
+  threadCounts?: Record<string, number>;
+  myPending?: number;
+  myBounced?: number;
+  recentThreads?: ThreadRow[];
+  totalThreads?: number;
 }
 
 const KPI_STATUSES: { status: DocumentStatus; labelKm: string }[] = [
@@ -100,6 +117,60 @@ export default function HomePage() {
             </div>
           ))}
         </section>
+
+        {/* Thread workflow stats */}
+        {stats && (stats.totalThreads ?? 0) > 0 && (
+          <section className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
+            {[
+              { icon: '📥', value: stats.myPending ?? 0, label: 'Pending', labelKm: 'រង់ចាំ' },
+              { icon: '🔄', value: stats.myBounced ?? 0, label: 'Bounced', labelKm: 'បញ្ជូនត្រឡប់' },
+              { icon: '✍', value: stats.threadCounts?.PENDING_SIGN ?? 0, label: 'To Sign', labelKm: 'រង់ចាំហត្ថលេខា' },
+              { icon: '✅', value: stats.threadCounts?.SIGNED ?? 0, label: 'Signed', labelKm: 'បានចុះ' },
+              { icon: '📊', value: stats.totalThreads ?? 0, label: 'Total Threads', labelKm: 'ខ្សែស្រឡាយ' },
+            ].map(k => (
+              <Link key={k.label} href="/inbox" className="bg-kgd-surface border border-kgd-border rounded-2xl p-4 hover:bg-kgd-elevated transition-colors">
+                <div className="flex items-center justify-between">
+                  <span className="text-lg">{k.icon}</span>
+                  <span className="text-2xl font-bold text-kgd-text tabular-nums">{k.value}</span>
+                </div>
+                <p className="text-xs text-kgd-muted mt-2 font-khmer">{k.labelKm}</p>
+              </Link>
+            ))}
+          </section>
+        )}
+
+        {/* Recent threads */}
+        {stats && stats.recentThreads && stats.recentThreads.length > 0 && (
+          <section className="mb-6">
+            <div className="flex items-baseline justify-between mb-3">
+              <h2 className="font-khmer text-lg font-bold text-kgd-text">ខ្សែស្រឡាយថ្មីៗ</h2>
+              <Link href="/inbox" className="text-xs text-kgd-blue hover:underline">មើលទាំងអស់ →</Link>
+            </div>
+            <ul className="bg-kgd-surface border border-kgd-border rounded-2xl divide-y divide-kgd-border/50 overflow-hidden">
+              {stats.recentThreads.map(t => (
+                <li key={t.id}>
+                  <Link href={`/inbox/${t.id}`} className="flex items-center gap-3 px-4 py-3 hover:bg-kgd-elevated">
+                    <span className="text-sm">{t.direction === 'up' ? '↑' : '↓'}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-khmer text-sm truncate text-kgd-text">{t.titleKm || t.title}</p>
+                      <p className="text-xs text-kgd-muted">
+                        L{t.currentLevel} · v{t.currentVersion}
+                        {t.bounceCount > 0 && <span className="text-amber-400 ml-1">({t.bounceCount} bounce)</span>}
+                      </p>
+                    </div>
+                    <Badge tone={
+                      t.status === 'SIGNED' ? 'emerald' :
+                      t.status === 'BOUNCED' ? 'amber' :
+                      t.status === 'PENDING_SIGN' ? 'emerald' : 'sky'
+                    }>
+                      {t.status.replace(/_/g, ' ')}
+                    </Badge>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {/* Primary action */}
         <section className="bg-gradient-to-r from-kgd-blue to-kgd-blue/80 text-white rounded-2xl p-6 mb-6 flex items-center justify-between flex-wrap gap-4">

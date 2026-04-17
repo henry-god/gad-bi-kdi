@@ -83,9 +83,26 @@ router.get('/dashboard/stats', async (req, res) => {
       const s = row.status || 'draft';
       counts[s] = (counts[s] ?? 0) + 1;
     }
+    // Thread stats
+    const [myThreads, allThreads] = await Promise.all([
+      firestore.list<any>('threads', { where: [['currentHolderId', '==', userId]], limit: 200 }),
+      firestore.list<any>('threads', { orderBy: [['updatedAt', 'desc']], limit: 200 }),
+    ]);
+    const threadCounts: Record<string, number> = {};
+    for (const t of allThreads) {
+      const s = t.status || 'CREATED';
+      threadCounts[s] = (threadCounts[s] ?? 0) + 1;
+    }
+    const myPending = myThreads.filter((t: any) => ['SUBMITTED', 'IN_REVIEW', 'APPROVED_LEVEL', 'RESUBMITTED', 'PENDING_SIGN'].includes(t.status)).length;
+    const myBounced = myThreads.filter((t: any) => t.status === 'BOUNCED').length;
+    const recentThreads = allThreads.slice(0, 5);
+
     return res.json({
       success: true,
-      data: { scope: scopeSelf ? 'self' : 'all', counts, totalDocs, pendingReview, recentDocs, recentAudit },
+      data: {
+        scope: scopeSelf ? 'self' : 'all', counts, totalDocs, pendingReview, recentDocs, recentAudit,
+        threadCounts, myPending, myBounced, recentThreads, totalThreads: allThreads.length,
+      },
     });
   }
 
