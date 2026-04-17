@@ -55,6 +55,31 @@
         { "fieldPath": "isActive",  "order": "ASCENDING" },
         { "fieldPath": "sortOrder", "order": "ASCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "folders",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "workspaceId", "order": "ASCENDING" },
+        { "fieldPath": "parentId",    "order": "ASCENDING" },
+        { "fieldPath": "name",        "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "resourceFiles",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "folderId", "order": "ASCENDING" },
+        { "fieldPath": "name",     "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "resourceFiles",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "workspaceId", "order": "ASCENDING" },
+        { "fieldPath": "updatedAt",   "order": "DESCENDING" }
+      ]
     }
   ],
   "fieldOverrides": []
