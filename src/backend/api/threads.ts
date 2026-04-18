@@ -30,6 +30,7 @@ import {
 } from '../services/thread-engine';
 import { getMyInbox, getInboxStats } from '../services/inbox-service';
 import { getUnreadCount, listNotifications, markRead, markAllRead } from '../services/notification-service';
+import { checkSla } from '../services/sla-service';
 import firestore from '../services/firestore-service';
 
 const router = Router();
@@ -106,6 +107,17 @@ router.post('/notifications/read', async (req, res) => {
       await markAllRead(req.user!.id);
     }
     res.json({ success: true });
+  } catch (e: any) {
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+// ── SLA check (admin or cron) ────────────────────────────────────────
+
+router.post('/sla/check', async (req, res) => {
+  try {
+    const result = await checkSla();
+    res.json({ success: true, data: result });
   } catch (e: any) {
     res.status(500).json({ success: false, error: e.message });
   }
