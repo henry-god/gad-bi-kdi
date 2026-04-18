@@ -173,20 +173,27 @@ Clean working tree (only untracked: functions/package-lock.json)
 
 ---
 
-## 8. What's Next
+## 8. Shipped 2026-04-18
 
-In priority order:
+| What | Commit |
+|------|--------|
+| Node 22 upgrade (from Node 20) | `99cf190` |
+| Notification system (bell icon, fan-out, mark read) | `99cf190` |
+| Thread → DOCX generation + download button | `75f0b3e` |
+| Bounce reason picker (11 options) | `75f0b3e` |
+| SLA overdue checker with escalation | `0509ce8` |
 
-1. **Notification system** — badges on inbox nav, in-app notifications
-2. **SLA cron** — overdue thread escalation per workflow §9
-3. **Bounce reason picker UI** — dropdown in thread detail bounce dialog
-4. **DOCX generation from threads** — wire thread content to template engine
-5. **Admin UID auto-bind** — first real Firebase sign-in replaces seed user
-6. **Node 20 → 24 for Cloud Function** — deprecation warning (by 2026-04-30)
+## 9. What's Next
+
+1. **Admin UID auto-bind** — first real Firebase sign-in replaces seed user
+2. **Cloud Scheduler for SLA** — cron trigger every 4h for `/api/threads/sla/check`
+3. **Thread creation wizard** — UI form that creates threads with all template fields
+4. **Version diff viewer** — side-by-side diff between thread versions
+5. **Audit log for threads** — thread actions in the audit page
 
 ---
 
-## 9. How to Resume
+## 10. How to Resume
 
 ```
 "Resume KGD. Read docs/SESSION_SUMMARY_2026-04-17.md first, then ship [notification system | SLA cron | whatever]."
